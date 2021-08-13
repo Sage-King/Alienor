@@ -17,13 +17,13 @@ namespace Sage
 		{
 			return ID;
 		}
-		void virtual update(GLFWwindow* window)
+		void virtual update()
 		{
 			std::cout << "No update function for object with name: " + name + "\nand ID: " + std::to_string(ID);
 		}
-		void virtual draw(GLFWwindow* window)
+		void virtual draw()
 		{
-			std::cout << "No draw function for object with name: " + name + "\nand ID: " + std::to_string(ID);
+			std::cout << "No draw function for object with name: " + name + "\nand ID: " + std::to_string(ID) + '\n';
 		}
 	protected:
 		Object(const std::string& name)
@@ -38,5 +38,4 @@ namespace Sage
 		std::string name;
 	};
 }
-
 #endif

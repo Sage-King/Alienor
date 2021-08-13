@@ -2,38 +2,37 @@
 #define QUAD_H_GUARD
 
 #include "glm/glm.hpp"
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 #include "Shader.h"
 #include <Texture.h>
-
+#include <string>
 namespace Sage
 {
 	class Quad
 	{
 	public:
-		Quad(glm::vec3 color, float width, float height, float in_x, float in_y);
-		Quad(Texture texture, float width, float height, float in_x, float in_y);
-
+		Quad(glm::vec4 color, double width, double height, double in_x, double in_y);
+		Quad(const std::string& filepath, int size_of_sprite_x, int size_of_sprite_y, double width, double height, double in_x, double in_y);
+		Quad();
+		                       
 		void draw();
 		bool isIntersecting(Quad in_quad);
 
-		float getWidth();
-		void setWidth(float in_width);
-		float getHeight();
-		void setHeight(float in_height);
-		glm::vec3 getColor();
-		void setColor(glm::vec3 in_color);
-		float x;
-		float y;
+		glm::vec4 getColor();
+		void setColor(glm::vec4 in_color);
+		double x;
+		double y;
 		unsigned int sprite_number_x;
 		unsigned int sprite_number_y;
+		double width;
+		double height;
 
 	private:
-		glm::vec3 color;
-		float width;
-		float height;
-		Shader shader;
-		unsigned int vao;
 		Texture texture;
+		Shader shader;
+		glm::vec4 color = glm::vec4{ 1.0f,1.0f,1.0f,1.0f };
+		unsigned int vao;
 		bool is_textured = false;
 	};
 }

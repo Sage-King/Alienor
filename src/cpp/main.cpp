@@ -54,7 +54,7 @@ int main()
 	std::cout << '\n';
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(gl_debug_message_callback, (void*)0);
-	//glDebugMessageControl(GL_DONT_CARE, GL_DEBUG_TYPE_OTHER, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0, GL_FALSE);
+	glDebugMessageControl(GL_DONT_CARE, GL_DEBUG_TYPE_OTHER, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0, GL_FALSE);
 #else
 	glDisable(GL_DEBUG_OUTPUT);
 #endif
@@ -66,14 +66,14 @@ int main()
 	glfwGetFramebufferSize(window, &width, &height);
 	glViewport(0, 0, width, height);
 
-	Sage::Alienor alienor_game{};
+	Sage::Alienor alienor_game{window};
 
 	glfwSetWindowUserPointer(window, &alienor_game);
 
 	while (!glfwWindowShouldClose(window))
 	{
-		alienor_game.update(window);
-		alienor_game.draw(window);
+		alienor_game.update();
+		alienor_game.draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -5,7 +5,7 @@
 #include "Texture.h"
 namespace Sage
 {
-	Quad::Quad(glm::vec3 color, float width, float height, float in_x = 0.0f, float in_y = 0.0f) 
+	Quad::Quad(glm::vec4 color, double width, double height, double in_x = 0.0, double in_y = 0.0)
 	   :width(width),
 		height(height),
 		color(color),
@@ -56,16 +56,16 @@ namespace Sage
 		glDeleteBuffers(1, &ibo);
 	}
 
-	Quad::Quad(Texture texture, float width, float height, float in_x = 0.0f, float in_y = 0.0f)
+	Quad::Quad(const std::string& filepath, int size_of_sprite_x, int size_of_sprite_y, double width, double height, double in_x = 0.0, double in_y = 0.0)
 		:width(width),
 		height(height),
-		color(glm::vec3(0.0f,0.0f,0.0f)),
+		color(glm::vec4(1.0f,1.0f,1.0f,1.0f)),
 		x(in_x),
 		y(in_y),
 		is_textured(true),
-		texture(texture),
 		sprite_number_x(0),
-		sprite_number_y(0)
+		sprite_number_y(0),
+		texture(Texture(filepath, size_of_sprite_x, size_of_sprite_y))
 	{
 		shader = Shader("shaders\\quad_textured.vs", "shaders\\quad_textured.fs");
 		shader.use();
@@ -110,6 +110,8 @@ namespace Sage
 		glDeleteBuffers(1, &ibo);
 	}
 
+	Quad::Quad() {}
+
 	void Quad::draw()
 	{
 		shader.use();
@@ -119,13 +121,13 @@ namespace Sage
 		shader.setMat4("scale", scale);
 
 		glm::mat4 translate = glm::mat4(1.0f);
-		float temp_x = (x * 2) - 1;
-		float temp_y = (y * 2) - 1;
+		double temp_x = (x * 2) - 1;
+		double temp_y = (y * 2) - 1;
 		translate = glm::translate(translate, glm::vec3(temp_x, -temp_y, 0.0f));
 		shader.setMat4("translate", translate);
 		if (!is_textured)
 		{
-			shader.setVec3("color", color);
+			shader.setVec4("color", color);
 		}
 		else
 		{
@@ -133,6 +135,7 @@ namespace Sage
 			texture.current_sprite_number_y = sprite_number_y;
 			texture.Update();
 			shader.use();
+			shader.setVec4("color", color);
 			shader.setVec2("top_left", texture.get_top_left());
 			shader.setVec2("bottom_right", texture.get_bottom_right());
 			texture.Bind();
@@ -145,46 +148,26 @@ namespace Sage
 
 	bool Quad::isIntersecting(Quad in_quad)
 	{
-		float x_edge = x + (width / 2);
-		float neg_x_edge = x - (width / 2);
-		float y_edge = y + (height / 2);
-		float neg_y_edge = y - (height / 2);
+		double x_edge = x + (width / 2);
+		double neg_x_edge = x - (width / 2);
+		double y_edge = y + (height / 2);
+		double neg_y_edge = y - (height / 2);
 
-		float in_x_edge = in_quad.x + (in_quad.width / 2);
-		float in_neg_x_edge = in_quad.x - (in_quad.width / 2);
-		float in_y_edge = in_quad.y + (in_quad.height / 2);
-		float in_neg_y_edge = in_quad.y - (in_quad.height / 2);
+		double in_x_edge = in_quad.x + (in_quad.width / 2);
+		double in_neg_x_edge = in_quad.x - (in_quad.width / 2);
+		double in_y_edge = in_quad.y + (in_quad.height / 2);
+		double in_neg_y_edge = in_quad.y - (in_quad.height / 2);
 
 		return (neg_x_edge < in_x_edge && x_edge > in_neg_x_edge && 
 				in_neg_y_edge < y_edge && in_y_edge > neg_y_edge);
 	}
 
-	float Quad::getWidth()
-	{
-		return width;
-	}
-
-	void Quad::setWidth(float in_width)
-	{
-		width = in_width;
-	}
-
-	float Quad::getHeight()
-	{
-		return height;
-	}
-
-	void Quad::setHeight(float in_height)
-	{
-		height = in_height;
-	}
-
-	glm::vec3 Quad::getColor()
+	glm::vec4 Quad::getColor()
 	{
 		return color;
 	}
 
-	void Quad::setColor(glm::vec3 in_color)
+	void Quad::setColor(glm::vec4 in_color)
 	{
 		color = in_color;
 	}
