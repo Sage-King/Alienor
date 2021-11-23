@@ -1,1 +1,1 @@
-Practice game.
+Coding practice game.
