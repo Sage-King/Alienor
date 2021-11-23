@@ -3,13 +3,12 @@
 #include <iostream>
 #include <unordered_map>
 #include <memory>
-#include <Obstacle.h>
-namespace Sage
+
+namespace Sage 
 {
 	Player::Player()
 		:
-		Game_Actor("main_player"),
-		quad(Quad{ "resources\\test_blue_crack.png", 100,100, 0.25f,0.125f,0.75f,0.75f })
+		Game_Actor("main_player", 3, Quad{ "resources\\test_blue_crack.png", 100,100, 0.25f,0.125f,0.75f,0.75f })
 	{
 		last_change = glfwGetTime();
 	}
@@ -19,11 +18,11 @@ namespace Sage
 
 	}
 
-	void Player::draw() 
+	void Player::draw()
 	{
-		quad.draw(); 
+		quad.draw();
 	}
-	void Player::update()
+	void Player::update(double delta_time)
 	{
 		if ((glfwGetTime() - last_change) >= 0.041666)
 		{
@@ -48,6 +47,4 @@ namespace Sage
 	{
 		quad.x += 1.0 * delta_time;
 	}
-
-
 }

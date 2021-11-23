@@ -13,13 +13,13 @@ namespace Sage
 		{
 
 		}
-		std::vector<Command*> handle_input()
+		std::vector<Command*> retrieve_input()
 		{
 			std::vector<Command*> ret_vector;
-			if (is_pressed(GLFW_KEY_I)) ret_vector.push_back(&i_command);
-			if (is_pressed(GLFW_KEY_J)) ret_vector.push_back(&j_command);
-			if (is_pressed(GLFW_KEY_K)) ret_vector.push_back(&k_command);
-			if (is_pressed(GLFW_KEY_L)) ret_vector.push_back(&l_command);
+			if (is_pressed(GLFW_KEY_W)) ret_vector.push_back(&w_command);
+			if (is_pressed(GLFW_KEY_A)) ret_vector.push_back(&a_command);
+			if (is_pressed(GLFW_KEY_S)) ret_vector.push_back(&s_command);
+			if (is_pressed(GLFW_KEY_D)) ret_vector.push_back(&d_command);
 			return ret_vector;
 		}
 	private:
@@ -32,10 +32,10 @@ namespace Sage
 
 		GLFWwindow* window_pointer;
 
-		Move_Up i_command;
-		Move_Left j_command;
-		Move_Down k_command;
-		Move_Right l_command;
+		Move_Up w_command;
+		Move_Left a_command;
+		Move_Down s_command;
+		Move_Right d_command;
 		
 	};
 }

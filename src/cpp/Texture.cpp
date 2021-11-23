@@ -17,7 +17,9 @@ namespace Sage
 		height(0),
 		channels(0),
 		top_left(glm::vec2(0.0f)),
-		bottom_right(glm::vec2(0.0f))
+		bottom_right(glm::vec2(0.0f)),
+		current_sprite_number_x(0),
+		current_sprite_number_y(0)
 	{
 		stbi_set_flip_vertically_on_load(true);
 

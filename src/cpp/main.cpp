@@ -14,6 +14,7 @@
 
 void glfw_error_callback(int error_code, const char* error_message); 
 void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void glfw_framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void GLAPIENTRY gl_debug_message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
@@ -29,7 +30,7 @@ int main()
 	if (!glfwInit())
 	{
 		std::cout << "[ERROR]GLFW ERROR:: glfw failed to initialize\n";
-	} 
+	}
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -60,6 +61,7 @@ int main()
 #endif
 
 	glfwSetKeyCallback(window, glfw_key_callback);
+	glfwSetMouseButtonCallback(window, glfw_mouse_button_callback);
 	glfwSetFramebufferSizeCallback(window, glfw_framebuffer_size_callback);
 
 	int width, height;
@@ -78,13 +80,27 @@ int main()
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	glfwTerminate();
-	return 0;
+	
+	if (alienor_game.get_valid_exit())
+	{
+		glfwTerminate();
+		return 0;
+	}
+	else
+	{
+		std::cin.get();
+		glfwTerminate();
+		return 1;
+	}
 }
 
 void glfw_error_callback(int error_code, const char* error_message)
 {
 	std::cout << "[ERROR] GLFW ERROR - Error code: " << error_code << "\n|| Error Message: " << error_message << '\n';
+}
+void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	((Sage::Alienor*)glfwGetWindowUserPointer(window))->mouse_button_callback(window, button, action, mods);
 }
 
 void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

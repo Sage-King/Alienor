@@ -13,7 +13,8 @@ namespace Sage
 		y(in_y),
 		is_textured(false),
 		sprite_number_x(0),
-		sprite_number_y(0)
+		sprite_number_y(0),
+		texture(Texture{"resources\\error.png", 100, 100})
 	{
 		shader = Shader("shaders\\quad.vs", "shaders\\quad.fs");
 
@@ -56,7 +57,7 @@ namespace Sage
 		glDeleteBuffers(1, &ibo);
 	}
 
-	Quad::Quad(const std::string& filepath, int size_of_sprite_x, int size_of_sprite_y, double width, double height, double in_x = 0.0, double in_y = 0.0)
+	Quad::Quad(const std::string& filepath, unsigned int size_of_sprite_x, unsigned int size_of_sprite_y, double width, double height, double in_x = 0.0, double in_y = 0.0)
 		:width(width),
 		height(height),
 		color(glm::vec4(1.0f,1.0f,1.0f,1.0f)),
@@ -65,9 +66,9 @@ namespace Sage
 		is_textured(true),
 		sprite_number_x(0),
 		sprite_number_y(0),
-		texture(Texture(filepath, size_of_sprite_x, size_of_sprite_y))
+		texture(Texture(filepath, size_of_sprite_x, size_of_sprite_y)),
+		shader(Shader{ "shaders\\quad_textured.vs", "shaders\\quad_textured.fs" })
 	{
-		shader = Shader("shaders\\quad_textured.vs", "shaders\\quad_textured.fs");
 		shader.use();
 
 		glGenVertexArrays(1, &vao);
@@ -127,14 +128,13 @@ namespace Sage
 		shader.setMat4("translate", translate);
 		if (!is_textured)
 		{
-			shader.setVec4("color", color);
+ 			shader.setVec4("color", color);
 		}
 		else
 		{
  			texture.current_sprite_number_x = sprite_number_x;
 			texture.current_sprite_number_y = sprite_number_y;
 			texture.Update();
-			shader.use();
 			shader.setVec4("color", color);
 			shader.setVec2("top_left", texture.get_top_left());
 			shader.setVec2("bottom_right", texture.get_bottom_right());
@@ -144,22 +144,6 @@ namespace Sage
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
 		glBindVertexArray(0);
-	}
-
-	bool Quad::isIntersecting(Quad in_quad)
-	{
-		double x_edge = x + (width / 2);
-		double neg_x_edge = x - (width / 2);
-		double y_edge = y + (height / 2);
-		double neg_y_edge = y - (height / 2);
-
-		double in_x_edge = in_quad.x + (in_quad.width / 2);
-		double in_neg_x_edge = in_quad.x - (in_quad.width / 2);
-		double in_y_edge = in_quad.y + (in_quad.height / 2);
-		double in_neg_y_edge = in_quad.y - (in_quad.height / 2);
-
-		return (neg_x_edge < in_x_edge && x_edge > in_neg_x_edge && 
-				in_neg_y_edge < y_edge && in_y_edge > neg_y_edge);
 	}
 
 	glm::vec4 Quad::getColor()
