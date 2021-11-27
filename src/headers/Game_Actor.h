@@ -23,6 +23,7 @@ namespace Sage
 			return &quad;
 		}
 		Quad quad;
+		bool on_a_booster = false;
 	};
 
 }

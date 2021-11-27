@@ -19,9 +19,7 @@ namespace Sage
 		void draw() override;
 		void update(double delta_time) override;
 	private:
-
 		double last_change = 0.0;
-
 	};
 }
 #endif

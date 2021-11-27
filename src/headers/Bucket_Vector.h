@@ -40,6 +40,14 @@ namespace Sage
 
 			return return_vector;
 		}
+
+		void clear()
+		{
+			for (unsigned int i = 0; i < num_of_buckets; i++)
+			{
+				vector[i].clear();
+			}
+		}
 	private:
 		unsigned int num_of_buckets;
 		std::vector<std::vector<T>> vector;

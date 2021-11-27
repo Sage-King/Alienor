@@ -57,12 +57,12 @@ namespace Sage
 		glDeleteBuffers(1, &ibo);
 	}
 
-	Quad::Quad(const std::string& filepath, unsigned int size_of_sprite_x, unsigned int size_of_sprite_y, double width, double height, double in_x = 0.0, double in_y = 0.0)
+	Quad::Quad(const std::string& filepath, unsigned int size_of_sprite_x, unsigned int size_of_sprite_y, double width, double height, double x = 0.0, double y = 0.0)
 		:width(width),
 		height(height),
 		color(glm::vec4(1.0f,1.0f,1.0f,1.0f)),
-		x(in_x),
-		y(in_y),
+		x(x),
+		y(y),
 		is_textured(true),
 		sprite_number_x(0),
 		sprite_number_y(0),

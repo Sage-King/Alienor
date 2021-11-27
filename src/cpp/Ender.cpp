@@ -11,10 +11,11 @@ namespace Sage
 	{
 
 	}
-	Ender::Ender(double quad_loc_x, double quad_loc_y, double quad_size_x, double quad_size_y, unsigned int draw_layer)
+	Ender::Ender(double quad_loc_x, double quad_loc_y, double quad_size_x, double quad_size_y, unsigned int draw_layer, double initial_vel_x, double initial_vel_y)
 		:
 		Collidable("ender_" + std::to_string(ID_factory++), draw_layer),
-		quad(Quad{ glm::vec4{1.0,0.0,0.0,1.0}, quad_size_x, quad_size_y, quad_loc_x, quad_loc_y })
+		quad(Quad{ glm::vec4{1.0,0.0,0.0,1.0}, quad_size_x, quad_size_y, quad_loc_x, quad_loc_y }),
+		vel(initial_vel_x, initial_vel_y)
 	{
 
 	}
@@ -24,7 +25,8 @@ namespace Sage
 	}
 	void Ender::update(double delta_time)
 	{
-		quad.y += 0.5f * delta_time;
+		quad.y += vel.y * delta_time;
+		quad.x += vel.x * delta_time;
 		if (quad.y >= 1.0f)
 		{
 			marked_for_death = true;
