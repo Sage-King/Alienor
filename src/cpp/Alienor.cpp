@@ -14,7 +14,7 @@
 
 namespace Sage
 {
-	//this is a change so that my git checksum is different
+	//here is a fixed merge
 	Alienor::Alienor(GLFWwindow* window)
 		:
 		game_background_color(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
