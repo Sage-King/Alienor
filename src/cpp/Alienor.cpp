@@ -16,7 +16,7 @@ namespace Sage
 {
 	Alienor::Alienor(GLFWwindow* window)
 		:
-		game_background_color(glm::vec4(0.0f, 0.1f, 0.1f, 1.0f)),
+		game_background_color(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
 		main_menu_background_color(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
 		end_screen_background_color(glm::vec4(0.4f, 0.2f, 0.35f, 1.0f)),
 		input_handler(window),
@@ -76,6 +76,10 @@ namespace Sage
 			//button inputs for main menu handled in mouse_button_callback (so we don't get multiple inputs by accident)
 			break;
 		case 1:
+			for (int i = 0; i < all_objects.get_full_list().size(); i++)
+			{
+				all_objects.get_full_list()[i]->update(delta_time);
+			}
 			process_inputs();
 			process_collisions();
 			clean_boosters_and_enders();
@@ -425,10 +429,6 @@ namespace Sage
 	}
 	void Alienor::clean_boosters_and_enders()
 	{
-		for (int i = 0; i < all_objects.get_full_list().size(); i++)
-		{
-			all_objects.get_full_list()[i]->update(delta_time);
-		}
 		for (int i = 0; i < all_boosters.size(); i++)
 		{
 			if (all_boosters[i]->is_marked_for_death())
@@ -476,6 +476,7 @@ namespace Sage
 			reg_obj(all_game_actors[i]);
 			all_game_actors[i]->quad.x = 0.5;
 			all_game_actors[i]->quad.y = 0.75;
+			all_game_actors[i]->on_a_booster = false;
 		}
 	}
 

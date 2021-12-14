@@ -72,9 +72,8 @@ namespace Sage
 		std::vector<std::shared_ptr<Booster>> all_boosters;
 		std::vector<std::shared_ptr<Ender>> all_enders;
 
-		//this vector has caused so many problems and I'm just too deep to want to fix it
-		//I think I'd rather have it just be a Player variable for simplicity, but this allows expansion I guess
-		std::vector<std::shared_ptr<Game_Actor>> all_game_actors;
+		
+		std::vector<std::shared_ptr<Game_Actor>> all_game_actors;//this vector has caused so many problems and I'm just too deep to want to fix it. I think I'd rather have it just be a Player variable for simplicity, but this allows expansion I guess
 
 		Bucket_Vector<std::shared_ptr<Menu_Button>> main_menu_objects{ 5 /*num of draw layers*/};
 		Bucket_Vector<std::shared_ptr<Menu_Button>> end_screen_objects{ 5 /*num of draw layers*/};
