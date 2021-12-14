@@ -95,7 +95,8 @@ namespace Sage
 		glm::vec4 game_background_color, main_menu_background_color, end_screen_background_color;
 		GLFWwindow* window;
 
-		const std::vector<std::string> decimal_mapped_to_display_pictures = {
+		const std::string decimal_mapped_to_display_pictures[10] =
+		{
 			"resources\\zero.png",
 			"resources\\one.png",
 			"resources\\two.png",
@@ -105,7 +106,7 @@ namespace Sage
 			"resources\\six.png",
 			"resources\\seven.png",
 			"resources\\eight.png",
-			"resources\\nine.png",
+			"resources\\nine.png"
 		};
 	};
 }

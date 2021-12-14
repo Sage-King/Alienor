@@ -50,8 +50,8 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	GLFWwindow* window = glfwCreateWindow(800, 800, "Alienor", NULL, NULL);
-	glfwSetWindowPos(window, 400, 200);
+	GLFWwindow* window = glfwCreateWindow(1920, 1080, "Alienor", glfwGetPrimaryMonitor(), NULL);
+	glfwSetWindowPos(window, 400, 10);
 	if (window == NULL)
 	{
 		std::cout << "[ERROR]Failed to create GLFW window (glfwCreateWindow)" << std::endl;

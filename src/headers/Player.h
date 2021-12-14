@@ -3,6 +3,8 @@
 #include "Texture.h"
 #include "Quad.h"
 #include "Game_Actor.h"
+#include "global_constants.h"
+
 namespace Sage 
 {
 	class Player : public Game_Actor

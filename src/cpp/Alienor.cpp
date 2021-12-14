@@ -17,30 +17,30 @@ namespace Sage
 	//here is a fixed merge
 	Alienor::Alienor(GLFWwindow* window)
 		:
-		game_background_color(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
-		main_menu_background_color(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
-		end_screen_background_color(glm::vec4(0.4f, 0.2f, 0.35f, 1.0f)),
+		game_background_color(glm::vec4(0.678f, 1.0f, 1.0f, 1.0f)),
+		main_menu_background_color(glm::vec4(1.0f, 0.913f, 0.58f, 1.0f)),
+		end_screen_background_color(glm::vec4(1.0f, 0.638f, 0.721f, 1.0f)),
 		input_handler(window),
 		window(window)
 	{
 		glEnable(GL_BLEND);                               
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		Menu_Button play_button("main_menu_play_button", 3, "resources\\start.png", 300, 100, 0.6, 0.2, 0.5, 0.5, [this]() {game_state = 1; });
+		Menu_Button play_button("main_menu_play_button", 3, "resources\\start.png", 300, 100, 0.6, 0.2 * WIDESCREEN_FACTOR, 0.5, 0.5, [this]() {game_state = 1; });
 		reg_main_menu_object(std::make_shared<Menu_Button>(play_button));
 
-		Menu_Button score_display("score_display", 4, "resources\\score.png", 300, 100, 0.15, 0.05, 0.1, 0.05, []() {});
+		Menu_Button score_display("score_display", 4, "resources\\score.png", 300, 100, 0.15, 0.05 * WIDESCREEN_FACTOR, 0.1, 0.05, []() {});
 		reg_static_display_object(std::make_shared<Menu_Button>(score_display));
 
 
 		
-		Menu_Button game_over_display("game_over_display", 3, "resources\\game_over.png", 600, 200, 0.6, 0.2, 0.5, 0.3, [](){});
+		Menu_Button game_over_display("game_over_display", 3, "resources\\game_over.png", 600, 200, 0.6, 0.2 * WIDESCREEN_FACTOR, 0.5, 0.3, [](){});
 		reg_end_screen_object(std::make_shared<Menu_Button>(game_over_display));
 		
-		Menu_Button restart_button("restart_button", 3, "resources\\restart.png", 300, 100, 0.3, 0.1, 0.5, 0.6, [this]() {game_state = 1; score = 0; });
+		Menu_Button restart_button("restart_button", 3, "resources\\restart.png", 300, 100, 0.3, 0.1 * WIDESCREEN_FACTOR, 0.5, 0.6, [this]() {game_state = 1; score = 0; });
 		reg_end_screen_object(std::make_shared<Menu_Button>(restart_button));
 		
-		Menu_Button final_score_display("final_score_display", 3, "resources\\final_score.png", 600, 100, 0.6, 0.1, 0.4, 0.75, []() {});
+		Menu_Button final_score_display("final_score_display", 3, "resources\\final_score.png", 600, 100, 0.6, 0.1 * WIDESCREEN_FACTOR, 0.4, 0.75, []() {});
 		reg_end_screen_object(std::make_shared<Menu_Button>(final_score_display));
 
 
@@ -454,14 +454,20 @@ namespace Sage
 
 	void Alienor::make_booster()
 	{
-		auto booster_temp_ptr = std::make_shared<Booster>(Booster{ pos_distribution_x(mersenne_rng), -0.5, size_distribution_booster(mersenne_rng), size_distribution_booster(mersenne_rng), 2, 0.0, vel_distribution_y_booster(mersenne_rng) });
+		//textured booster
+		//auto booster_temp_ptr = std::make_shared<Booster>(Booster{ "resources\\ender.png", 300, 300, size_distribution_booster(mersenne_rng), size_distribution_booster(mersenne_rng), pos_distribution_x(mersenne_rng), -0.5,  2, 0.0, vel_distribution_y_booster(mersenne_rng)});
+		//flat color booster
+		auto booster_temp_ptr = std::make_shared<Booster>(Booster{ pos_distribution_x(mersenne_rng), -0.5, size_distribution_booster(mersenne_rng), size_distribution_booster(mersenne_rng) * WIDESCREEN_FACTOR, 2, 0.0, vel_distribution_y_booster(mersenne_rng) });
 		reg_obj(booster_temp_ptr);
 		reg_booster(booster_temp_ptr);
 	} 
 	void Alienor::make_ender()
-	{
-		auto ender_temp_ptr = std::make_shared<Ender>(Ender{ pos_distribution_x(mersenne_rng), -0.5, size_distribution_ender(mersenne_rng), size_distribution_ender(mersenne_rng), 3, 0.0, vel_distribution_y_ender(mersenne_rng) });
-		reg_obj(ender_temp_ptr);
+	{ 
+		//textured ender
+		//auto ender_temp_ptr = std::make_shared<Ender>(Ender{"resources\\ender.png", 300, 300, size_distribution_ender(mersenne_rng), size_distribution_ender(mersenne_rng),  pos_distribution_x(mersenne_rng), -0.5,  3, 0.0, vel_distribution_y_ender(mersenne_rng)});
+		//flat color ender
+		auto ender_temp_ptr = std::make_shared<Ender>(Ender{ pos_distribution_x(mersenne_rng), -0.5, size_distribution_ender(mersenne_rng), size_distribution_ender(mersenne_rng) * WIDESCREEN_FACTOR, 3, 0.0, vel_distribution_y_ender(mersenne_rng) });
+		reg_obj(ender_temp_ptr); 
 		reg_ender(ender_temp_ptr);
 	}
 
@@ -486,7 +492,7 @@ namespace Sage
 		std::vector<uint_fast64_t> popped_score = pop_decimal_digits(score);
 		for (int i = 0; i < popped_score.size(); i++)
 		{
-			Menu_Button temp_digit_display{ "score_digit_" + i, 4, decimal_mapped_to_display_pictures[popped_score[i]], 100, 100, 0.05, 0.05, x + (0.05 * i), y, []() {} };
+			Menu_Button temp_digit_display{ "score_digit_" + i, 4, decimal_mapped_to_display_pictures[popped_score[i]], 100, 100, 0.05, 0.05 * WIDESCREEN_FACTOR, x + (0.05 * i), y, []() {} };
 
 			temp_digit_display.draw();
 		}

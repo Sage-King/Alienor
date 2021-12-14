@@ -9,7 +9,7 @@ namespace Sage
 {
 	Player::Player()
 		:
-		Game_Actor("main_player", 3, Quad{ "resources\\pink_player.png", 300,300, 0.1f,0.1f,0.5f,0.75f })
+		Game_Actor("main_player", 3, Quad{ "resources\\pink_player.png", 300, 300, 0.1f,0.1f * WIDESCREEN_FACTOR,0.5f,0.75f })
 	{
 		last_change = glfwGetTime();
 	}
@@ -30,8 +30,8 @@ namespace Sage
 			quad.sprite_number_x++;
 			last_change = glfwGetTime();
 		}
-		/*quad.y = std::clamp(quad.y, 0.0, 1.0);
-		quad.x = std::clamp(quad.x, 0.0, 1.0);*/
+		quad.y = std::clamp(quad.y, -0.1, 1.1);
+		quad.x = std::clamp(quad.x, -0.1, 1.1);
 	}
 
 	constexpr double player_fast_speed = 6.0;
