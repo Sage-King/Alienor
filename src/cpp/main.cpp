@@ -51,7 +51,6 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	GLFWwindow* window = glfwCreateWindow(1920, 1080, "Alienor", glfwGetPrimaryMonitor(), NULL);
-	glfwSetWindowPos(window, 400, 10);
 	if (window == NULL)
 	{
 		std::cout << "[ERROR]Failed to create GLFW window (glfwCreateWindow)" << std::endl;
@@ -64,6 +63,14 @@ int main()
 		printf("[ERROR] Failed to load modern OpenGL. (gladLoadGL)\n");
 		exit(-1);
 	}
+
+	glfwSetWindowPos(window, 400, 10); 
+	std::string icon_filepath = std::filesystem::current_path().string() + "\\resources\\pink_player.png";
+	int icon_width, icon_height, icon_color_channels;
+	unsigned char* image_data = stbi_load(icon_filepath.c_str(), &icon_width, &icon_height, &icon_color_channels, STBI_rgb_alpha);
+	GLFWimage images[1] = { GLFWimage{icon_width, icon_height, image_data} };
+	glfwSetWindowIcon(window, 1, images);
+	stbi_image_free(image_data);
 
 #if _DEBUG & OPEN_GL_VERSION
 	std::cout << "OpenGL ";
